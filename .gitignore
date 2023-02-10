@@ -23,7 +23,9 @@
 hs_err_pid*
 
 .idea/
-target/*/
-target/*.jar.original
-!target/*.jar
+#target/*/
+#target/*.jar.original
+#!target/*.jar
 *.iml
+
+target/
