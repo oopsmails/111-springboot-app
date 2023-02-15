@@ -30,18 +30,21 @@ public class EmployeeController {
     @GetMapping("/page")
     // @PreAuthorize("#oauth2.hasScope('read')")
     public Page<Employee> findAllByPage(@RequestParam(defaultValue = "1") int pageNumber,
-                                        @RequestParam(defaultValue = "10") int pageSize) {
+                                        @RequestParam(defaultValue = "10") int pageSize) throws Exception {
+        if (pageNumber == 2) {
+            throw new Exception("Temporarily not available");
+        }
         return employeeService.getPaginatedEmployees(pageNumber, pageSize);
     }
 
     @GetMapping("")
-// @PreAuthorize("#oauth2.hasScope('read')")
+    // @PreAuthorize("#oauth2.hasScope('read')")
     public List<Employee> findAll() {
         return repository.findAll();
     }
 
     @PostMapping("")
-// @PreAuthorize("#oauth2.hasScope('write') and #oauth2.hasScope('read')")
+    // @PreAuthorize("#oauth2.hasScope('write') and #oauth2.hasScope('read')")
     public Employee add(@RequestBody Employee employee) {
         return repository.add(employee);
     }
