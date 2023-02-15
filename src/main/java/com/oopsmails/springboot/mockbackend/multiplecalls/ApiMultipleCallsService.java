@@ -13,11 +13,15 @@ import java.util.concurrent.Future;
 
 @Service
 public class ApiMultipleCallsService {
+    private static int THREAD_POLL_SIZE = 3;
+
     @Autowired
     private ApiClientSimple apiClientSimple;
 
     public List<String> callApis(List<String> urls) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(urls.size());
+
+//        ExecutorService executor = Executors.newFixedThreadPool(urls.size());
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_POLL_SIZE);
         List<Callable<String>> callables = new ArrayList<>();
 
         for (String url : urls) {

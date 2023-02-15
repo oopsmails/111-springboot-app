@@ -12,6 +12,7 @@ import java.net.URL;
 @Slf4j
 public class ApiClientSimple {
     public String callApi(String url) throws IOException {
+        log.info("calling url: [{}]", url);
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
 

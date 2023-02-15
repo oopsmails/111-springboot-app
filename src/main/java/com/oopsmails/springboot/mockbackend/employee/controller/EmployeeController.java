@@ -33,7 +33,7 @@ public class EmployeeController {
     public Page<Employee> findAllByPage(@RequestParam(defaultValue = "1") int pageNumber,
                                         @RequestParam(defaultValue = "10") int pageSize) throws Exception {
         if (pageNumber == 2) {
-            throw new Exception("Temporarily not available");
+            throw new Exception("url = /page, Temporarily not available, pageNumber = " + pageNumber + ", pageSize = " + pageSize);
         }
         return employeeService.getPaginatedEmployees(pageNumber, pageSize);
     }
