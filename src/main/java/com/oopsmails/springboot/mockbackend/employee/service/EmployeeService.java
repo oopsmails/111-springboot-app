@@ -20,7 +20,7 @@ public class EmployeeService {
 
     public Page<Employee> getPaginatedEmployees(int pageNumber, int pageSize) {
         List<Employee> employees = repository.findAll();
-        log.info(JsonUtil.objectToJsonString(employees, true));
+//        log.info(JsonUtil.objectToJsonString(employees, true));
         int startIndex = (pageNumber - 1) * pageSize;
         int endIndex = startIndex + pageSize;
         if (endIndex > employees.size()) {

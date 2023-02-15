@@ -3,6 +3,7 @@ package com.oopsmails.springboot.mockbackend.employee.controller;
 import com.oopsmails.springboot.mockbackend.employee.model.Employee;
 import com.oopsmails.springboot.mockbackend.employee.repository.EmployeeRepository;
 import com.oopsmails.springboot.mockbackend.employee.service.EmployeeService;
+import com.oopsmails.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,9 @@ public class EmployeeController {
     @GetMapping("")
     // @PreAuthorize("#oauth2.hasScope('read')")
     public List<Employee> findAll() {
-        return repository.findAll();
+        List<Employee> employees = repository.findAll();
+        log.info(JsonUtil.objectToJsonString(employees, true));
+        return employees;
     }
 
     @PostMapping("")
