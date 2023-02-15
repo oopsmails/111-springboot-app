@@ -24,6 +24,11 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.oopsmails.springboot.dev.repo</groupId>-->
+<!--            <artifactId>oopsmails-common-tool</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
