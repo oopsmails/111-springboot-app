@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class PaginationGenericService<T> {
-    public Page<T> getPaginatedItmes(List<T> items, int pageNumber, int pageSize) {
+    public Page<T> getPaginatedItems(List<T> items, int pageNumber, int pageSize) {
         int startIndex = (pageNumber - 1) * pageSize;
         int endIndex = startIndex + pageSize;
         if (endIndex > items.size()) {

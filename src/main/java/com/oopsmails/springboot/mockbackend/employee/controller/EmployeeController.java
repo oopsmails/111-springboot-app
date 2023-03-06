@@ -42,7 +42,7 @@ public class EmployeeController {
 
         List<Employee> items = employeeService.getAllEmployees();
 
-        return paginationGenericService.getPaginatedItmes(items, pageNumber, pageSize);
+        return paginationGenericService.getPaginatedItems(items, pageNumber, pageSize);
     }
 
     @GetMapping("")
