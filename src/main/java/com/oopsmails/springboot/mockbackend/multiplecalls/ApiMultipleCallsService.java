@@ -11,10 +11,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class ApiMultipleCallsService {
     private static int THREAD_POLL_SIZE = 3;
+    private static int TIME_OUT = 3;
 
     @Autowired
     private ApiClientSimple apiClientSimple;
@@ -41,8 +43,10 @@ public class ApiMultipleCallsService {
 
         for (Future<String> future : futures) {
             try {
-                results.add(future.get());
-            } catch (InterruptedException | ExecutionException e) {
+                String result = future.get(TIME_OUT, TimeUnit.SECONDS); // configure Timeout here
+                results.add(result);
+//                results.add(future.get());
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 results.add(e.getMessage());
             }
         }

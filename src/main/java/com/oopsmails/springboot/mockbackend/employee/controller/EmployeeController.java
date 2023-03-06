@@ -3,6 +3,7 @@ package com.oopsmails.springboot.mockbackend.employee.controller;
 import com.oopsmails.springboot.mockbackend.employee.model.Employee;
 import com.oopsmails.springboot.mockbackend.employee.repository.EmployeeRepository;
 import com.oopsmails.springboot.mockbackend.employee.service.EmployeeService;
+import com.oopsmails.springboot.mockbackend.employee.service.PaginationGenericService;
 import com.oopsmails.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,20 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private PaginationGenericService<Employee> paginationGenericService;
+
     @GetMapping("/page")
     // @PreAuthorize("#oauth2.hasScope('read')")
     public Page<Employee> findAllByPage(@RequestParam(defaultValue = "1") int pageNumber,
                                         @RequestParam(defaultValue = "10") int pageSize) throws Exception {
-        if (pageNumber == 2) {
+        if (pageNumber == 2) { // for testing
             throw new Exception("url = /page, Temporarily not available, pageNumber = " + pageNumber + ", pageSize = " + pageSize);
         }
-        return employeeService.getPaginatedEmployees(pageNumber, pageSize);
+
+        List<Employee> items = employeeService.getAllEmployees();
+
+        return paginationGenericService.getPaginatedItmess(items, pageNumber, pageSize);
     }
 
     @GetMapping("")
