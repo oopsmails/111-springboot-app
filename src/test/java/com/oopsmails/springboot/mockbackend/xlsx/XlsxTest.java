@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -65,9 +67,12 @@ public class XlsxTest {
             Resource resource = resourceLoader.getResource("classpath:sampleXlsx.xlsx");
             File file = resource.getFile();
             inputStream = new FileInputStream(file);
-            Workbook workbook = WorkbookFactory.create(inputStream);
+//            Workbook workbook = WorkbookFactory.create(inputStream);
+//            Sheet sheet = workbook.getSheetAt(0);
 
-            Sheet sheet = workbook.getSheetAt(0);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+
             Iterator<Row> rowIterator = sheet.iterator();
 
             // Skip header row
