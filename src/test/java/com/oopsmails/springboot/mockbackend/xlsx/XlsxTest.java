@@ -4,10 +4,9 @@ import com.oopsmails.springboot.mockbackend.SpringBootBackendMockApplication;
 import com.oopsmails.springboot.mockbackend.util.ResourceLoaderFile;
 import com.oopsmails.springboot.mockbackend.xlsx.model.Person;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
@@ -67,8 +66,8 @@ public class XlsxTest {
             Resource resource = resourceLoader.getResource("classpath:sampleXlsx.xlsx");
             File file = resource.getFile();
             inputStream = new FileInputStream(file);
-//            Workbook workbook = WorkbookFactory.create(inputStream);
-//            Sheet sheet = workbook.getSheetAt(0);
+            //            Workbook workbook = WorkbookFactory.create(inputStream);
+            //            Sheet sheet = workbook.getSheetAt(0);
 
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(0);
@@ -76,21 +75,34 @@ public class XlsxTest {
             Iterator<Row> rowIterator = sheet.iterator();
 
             // Skip header row
-//            if (rowIterator.hasNext()) {
-//                rowIterator.next();
-//            }
+            //            if (rowIterator.hasNext()) {
+            //                rowIterator.next();
+            //            }
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                Person person = new Person();
 
-                person.setName(row.getCell(0).getStringCellValue());
-                person.setAge((int) row.getCell(1).getNumericCellValue());
-                person.setEmail(row.getCell(2).getStringCellValue());
+                Cell nameCell = row.getCell(0);
+                if (nameCell != null) {
+                    if (nameCell.getCellType() == CellType.STRING) {
+                        String name = nameCell.getStringCellValue();
+                        // Process the string value
+                        Person person = new Person();
 
-                items.add(person);
+                        person.setName(name);
+                        //                person.setName(row.getCell(0).getStringCellValue());
+                        person.setAge((int) row.getCell(1).getNumericCellValue());
+                        person.setEmail(row.getCell(2).getStringCellValue());
+
+                        items.add(person);
+                    } else if (nameCell.getCellType() == CellType.BLANK) {
+                        // Handle blank cell
+                    }
+                } else {
+                    // Handle null cell
+                    continue;
+                }
             }
-
             log.info("items.size = {}", items.size());
         } catch (IOException | IllegalStateException e) {
             // Handle exceptions
